@@ -16,32 +16,51 @@ Aşaıdaki yorumları takip edin.
 
 import React, { useState } from "react";
 
+//Bu değişkeni YALNIZCA bir durum dilimini yüklemek için kullanın!
 const KareIdListesi = ["sqA", "sqB", "sqC", "sqD"];
 
 export default function Kareler() {
+  // State hookunu 2 defa kullanın: 'kareler' ve
+  // 'aktifKare' olmak üzere. Birisi kare idlerini _dizi_ olarak tutacak, diğeri ise aktif olan
+  // kareyi gözlemleyecek. Sayfa yüklendiğinde aktif kare olmayacak,
+  // yani  'aktifKare' null olmalı.
   const [kareler, setKareler] = useState(KareIdListesi);
-  const [aktifKare, setAktifKareler] = useState(null);
-
+  const [aktifKare, setAktifKare] = useState(null);
+  console.log("aktif kare: ", aktifKare);
   const ClassAdiAl = (id) => {
     return aktifKare === id ? "active" : "";
   };
 
   const AktifEt = (id) => {
-    setAktifKareler(id === aktifKare ? null : id);
+    // Bu bir _satır içinden çağırılmış_ click handler yardımcısıdır.
+    // id bağımsız değişkenini, stateteki aktif id olacak şekilde ayarlayın
+    // eğer zaten aktifse, o zaman önce state i resetlemeliyiz.
+    if (aktifKare === id) {
+      setAktifKare(null);
+    } else {
+      const secilenKare = kareler.find((kare) => kare === id);
+      setAktifKare(secilenKare);
+    }
+    console.log("akitf et id: ", id);
   };
 
   return (
     <div className="widget-squares container">
       <h2>Kareler</h2>
       <div className="squares">
-        {kareler.map((id) => (
-          <div
-            id={id}
-            key={id}
-            className={`square ${ClassAdiAl(id)}`}
-            onClick={() => AktifEt(id)}
-          ></div>
-        ))}
+        {
+          // Kötü bug!  'KareIdListesi' yerine bir state dilimi kullanmalıyız.
+          // Şöyle diyebiliriz: "aa bu çalışıyor!" Ama kareler bir state diliminden gelmiyorsa,
+          // asla yeni kare ekleyemeyiz, kareleri düzenleyemeyiz ya da silemeyiz. Düzeltin!
+          kareler.map((id) => (
+            <div
+              id={id}
+              key={id}
+              className={`square ${ClassAdiAl(id)}`}
+              onClick={() => AktifEt(id)}
+            ></div>
+          ))
+        }
       </div>
     </div>
   );

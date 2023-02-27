@@ -27,29 +27,33 @@ ADIM 4, 5, 6:
   Click handler içinde `setRuhHali` ni kulanarak aşağıda tanımlanmış değişkenleri kullanarak ruhHali'ni güncelleyin
 */
 
-import React, { useState } from "react";
-
+import React from "react"; /* ADIM 0 */
+import { useState } from "react";
 const ilkRuhHali = "Nasıl hissettiğimi bilmiyorum :-|";
 const mutluRuhHali = "Oldukça mutlu :)";
 const uzgunRuhHali = "Oldukça üzgün :(";
 
 export default function RuhHalleri() {
+  /* ADIM 1 */
   const [ruhHali, setRuhHali] = useState(ilkRuhHali);
 
   const mutluEt = () => {
+    /* ADIM 4 */
     setRuhHali(mutluRuhHali);
   };
   const uZ = () => {
+    /* ADIM 5 */
     setRuhHali(uzgunRuhHali);
   };
   const reset = () => {
+    /* ADIM 6 */
     setRuhHali(ilkRuhHali);
   };
 
   const stil = {
     fontSize: "1.5em",
     marginBottom: "0.3em",
-    color: ruhHali === mutluRuhHali ? "royalblue" : "crimson" /* ADIM 2 */,
+    color: ruhHali == mutluRuhHali ? "royalblue" : "crimson",
   };
 
   return (
@@ -57,7 +61,7 @@ export default function RuhHalleri() {
       <h2>RuhHalleri</h2>
       <div id="ruhHali" style={stil}>
         {ruhHali}
-      </div>
+      </div>{" "}
       <div>
         <button id="mutluEt" onClick={mutluEt}>
           Mutlu Et
